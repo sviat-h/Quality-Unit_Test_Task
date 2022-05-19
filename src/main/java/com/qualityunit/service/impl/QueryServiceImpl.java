@@ -1,5 +1,6 @@
 package com.qualityunit.service.impl;
 
+import com.qualityunit.exception.DataProcessingException;
 import com.qualityunit.model.Query;
 import com.qualityunit.service.LineValidatorService;
 import com.qualityunit.service.QueryService;
@@ -22,7 +23,7 @@ public class QueryServiceImpl implements QueryService {
 
             int requiredNumberOfQueryParameters = 5;
             if (splitQuery.length != requiredNumberOfQueryParameters) {
-                throw new IllegalArgumentException("Invalid request!");
+                throw new DataProcessingException("Invalid request!");
             } else {
                 int indexOfServiceNumber = 1;
                 String serviceNumber = splitQuery[indexOfServiceNumber];

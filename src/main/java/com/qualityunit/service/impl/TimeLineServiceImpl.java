@@ -1,5 +1,6 @@
 package com.qualityunit.service.impl;
 
+import com.qualityunit.exception.DataProcessingException;
 import com.qualityunit.model.TimeLine;
 import com.qualityunit.service.LineValidatorService;
 import com.qualityunit.service.TimeLineService;
@@ -22,7 +23,7 @@ public class TimeLineServiceImpl implements TimeLineService {
 
             int requiredNumberOfQueryParameters = 6;
             if (splitTimeLine.length != requiredNumberOfQueryParameters) {
-                throw new IllegalArgumentException("Invalid request!");
+                throw new DataProcessingException("Invalid request!");
             } else {
 
                 int indexOfServiceNumber = 1;

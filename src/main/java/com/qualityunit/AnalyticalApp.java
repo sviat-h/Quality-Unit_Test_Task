@@ -1,5 +1,6 @@
 package com.qualityunit;
 
+import com.qualityunit.exception.DataProcessingException;
 import com.qualityunit.service.AnalyticalService;
 import com.qualityunit.service.LineValidatorService;
 import com.qualityunit.service.QueryService;
@@ -32,7 +33,7 @@ public class AnalyticalApp {
         try {
             scanner = new Scanner(dataToAnalyze);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("The specified path to the file could not be found!", e);
+            throw new DataProcessingException("The specified path to the file could not be found!", e);
         }
         int numberOfLines = Integer.parseInt(scanner.nextLine());
         for (int i = 0; i < numberOfLines; i++) {
@@ -42,7 +43,7 @@ public class AnalyticalApp {
             } else if (line.startsWith("C")) {
                 timeLines.add(line);
             } else {
-                throw new RuntimeException("The line must start with C or D symbol!");
+                throw new DataProcessingException("The line must start with C or D symbol!");
             }
         }
         scanner.close();

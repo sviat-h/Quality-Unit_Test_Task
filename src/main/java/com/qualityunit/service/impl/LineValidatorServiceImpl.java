@@ -1,5 +1,6 @@
 package com.qualityunit.service.impl;
 
+import com.qualityunit.exception.DataProcessingException;
 import com.qualityunit.model.Query;
 import com.qualityunit.model.RequestLine;
 import com.qualityunit.model.TimeLine;
@@ -16,7 +17,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
             if (intServiceNumber <= 10 && intServiceNumber >= 1) {
                 requestLine.setServiceNumber(intServiceNumber);
             } else {
-                throw new RuntimeException(
+                throw new DataProcessingException(
                         "Service Number must be in the range 1-10! Not " + intServiceNumber + "!");
             }
         } else if (serviceNumber.contains(".") && DataValidator.isNumeric(serviceNumber)) {
@@ -30,18 +31,18 @@ public class LineValidatorServiceImpl implements LineValidatorService {
                     requestLine.setServiceNumber(Integer.parseInt(splitServiceNumber[0]));
                     requestLine.setServiceVariation(Integer.parseInt(splitServiceNumber[1]));
                 } else {
-                    throw new RuntimeException(
+                    throw new DataProcessingException(
                             "Service Number must be in the range 1-10! Service Variation must be in the range 1-3!");
                 }
 
             } else {
-                throw new RuntimeException(
+                throw new DataProcessingException(
                         "Service Number (" + serviceNumber + ") is not valid!");
             }
         } else if (serviceNumber.contains("*") && serviceNumber.length() == 1) {
             requestLine.setServiceNumber(0); //0 means query match all services/question types
         } else {
-            throw new RuntimeException(
+            throw new DataProcessingException(
                     "Service Number (" + serviceNumber + ") is not valid!");
         }
     }
@@ -54,7 +55,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
             if (intQuestionType >= 1 && intQuestionType <= 10) {
                 requestLine.setQuestionType(intQuestionType);
             } else {
-                throw new RuntimeException(
+                throw new DataProcessingException(
                         "Question Type must be in the range 1-10! Not " + questionType + "!");
             }
         } else if (questionType.contains(".") && DataValidator.isNumeric(questionType)) {
@@ -69,7 +70,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
                     requestLine.setQuestionType(intQuestionType);
                     requestLine.setQuestionCategory(intQuestionCategory);
                 } else {
-                    throw new RuntimeException(
+                    throw new DataProcessingException(
                             "Question Type must be in the range 1-10! Question Category must be in the range 1-20!");
                 }
             } else if (splitQuestionType.length == 3) {
@@ -84,19 +85,19 @@ public class LineValidatorServiceImpl implements LineValidatorService {
                     requestLine.setQuestionCategory(intQuestionCategory);
                     requestLine.setQuestionSubcategory(intQuestionSubcategory);
                 } else {
-                    throw new RuntimeException(
+                    throw new DataProcessingException(
                             "Question Type must be in the range 1-10! "
                                     + "Question Category must be in the range 1-20! "
                                     + "Question Subcategory must be in the range 1-5!");
                 }
             } else {
-                throw new RuntimeException(
+                throw new DataProcessingException(
                         "Question Type (" + questionType + ") is not valid!");
             }
         } else if (questionType.contains("*") && questionType.length() == 1) {
             requestLine.setQuestionType(0); //0 means query match all services/question types
         } else {
-            throw new RuntimeException(
+            throw new DataProcessingException(
                     "Question Type (" + questionType + ") is not valid!");
         }
     }
@@ -107,7 +108,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
                 || responseType.contains("N") && responseType.length() == 1) {
             requestLine.setResponseType(responseType);
         } else {
-            throw new RuntimeException(
+            throw new DataProcessingException(
                     "Response Type (" + responseType + ") is not valid!");
         }
     }
@@ -117,7 +118,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
         if (DataValidator.isDate(date)) {
             timeLine.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         } else {
-            throw new RuntimeException("Date (" + date + ") is not valid!");
+            throw new DataProcessingException("Date (" + date + ") is not valid!");
         }
     }
 
@@ -128,10 +129,10 @@ public class LineValidatorServiceImpl implements LineValidatorService {
             if (number >= 0) {
                 timeLine.setTime(number);
             } else {
-                throw new RuntimeException("Time (" + time + ") is not valid!");
+                throw new DataProcessingException("Time (" + time + ") is not valid!");
             }
         } else {
-            throw new RuntimeException("Time (" + time + ") is not valid!");
+            throw new DataProcessingException("Time (" + time + ") is not valid!");
         }
     }
 
@@ -151,7 +152,7 @@ public class LineValidatorServiceImpl implements LineValidatorService {
                     query.setDateTo(
                             LocalDate.parse(dateTo, DateTimeFormatter.ofPattern("d.MM.yyyy")));
                 } else {
-                    throw new RuntimeException(
+                    throw new DataProcessingException(
                             "DateFrom (" + dateFrom + ") or DateTo (" + dateTo + ") is not valid!");
                 }
             }
